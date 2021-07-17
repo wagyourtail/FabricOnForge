@@ -1,0 +1,13 @@
+modLoader="javafml"
+loaderVersion="[33,)"
+issueTrackerURL=""
+license = "Apache 2.0"
+
+[[mods]]
+modId = "fabric-on-forge"
+version = "${version}"
+displayName = "Fabric On Forge"
+authors = "Wagyourtail"
+description = '''
+    Jankety Jank
+'''

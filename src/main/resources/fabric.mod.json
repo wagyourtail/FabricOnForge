@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "id": "fabricloader",
+  "name": "Forge + Fabric Loader",
+  "version": "${version}",
+  "environment": "*",
+  "description": "The base mod loader, but on forge.",
+  "license": "Apache-2.0",
+  "icon": "assets/fabricloader/icon.png",
+  "authors": [
+    "Wagyourtail", "FabricMC"
+  ]
+}

@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+MixinConnector: xyz.wagyourtail.fabriconforge.FabricLoaderEarlyRiser
+FMLCorePluginContainsFMLMod: true
+ForceLoadAsMod: true
