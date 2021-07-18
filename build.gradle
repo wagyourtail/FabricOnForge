@@ -24,6 +24,16 @@ repositories {
 minecraft {
 }
 
+sourceSets {
+    patches {
+        compileClasspath += main.compileClasspath + main.output
+        runtimeClasspath += main.compileClasspath + main.output
+    }
+    main {
+        runtimeClasspath += patches.output
+    }
+}
+
 loom {
     useFabricMixin = true
 }
@@ -51,6 +61,8 @@ dependencies {
     implementation 'org.ow2.sat4j:org.ow2.sat4j.pb:2.3.6'
     shadow 'org.ow2.sat4j:org.ow2.sat4j.core:2.3.6'
     shadow 'org.ow2.sat4j:org.ow2.sat4j.pb:2.3.6'
+
+    modImplementation 'com.github.Chocohead:Fabric-ASM:v2.2'
 
     //nullable not defined so...
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
@@ -98,6 +110,8 @@ java {
 }
 
 jar {
+    from sourceSets.main.output, sourceSets.patches.output
+
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}"}
     }
@@ -107,6 +121,8 @@ jar {
         ])
     }
 }
+
+build.finalizedBy(shadowJar)
 
 publishing {
     publications {

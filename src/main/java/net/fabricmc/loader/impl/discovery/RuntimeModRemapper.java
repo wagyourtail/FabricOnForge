@@ -35,6 +35,8 @@ import org.objectweb.asm.commons.Remapper;
 import xyz.wagyourtail.fabriconforge.FabricLoaderEarlyRiser;
 
 import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URLClassLoader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
@@ -292,17 +294,25 @@ public final class RuntimeModRemapper {
 	}
 
 	private static List<Path> getRemapClasspath() throws IOException {
-		String remapClasspathFile = System.getProperty(SystemProperties.REMAP_CLASSPATH_FILE);
+		return Arrays.stream(((URLClassLoader) ClassLoader.getSystemClassLoader()).getURLs()).map(e -> {
+			try {
+				return Paths.get(e.toURI());
+			} catch (URISyntaxException uriSyntaxException) {
+				throw new RuntimeException(uriSyntaxException);
+			}
+		}).collect(Collectors.toList());
 
-		if (remapClasspathFile == null) {
-			throw new RuntimeException("No remapClasspathFile provided");
-		}
-
-		String content = new String(Files.readAllBytes(Paths.get(remapClasspathFile)), StandardCharsets.UTF_8);
-
-		return Arrays.stream(content.split(File.pathSeparator))
-				.map(Paths::get)
-				.collect(Collectors.toList());
+//		String remapClasspathFile = System.getProperty(SystemProperties.REMAP_CLASSPATH_FILE);
+//
+//		if (remapClasspathFile == null) {
+//			throw new RuntimeException("No remapClasspathFile provided");
+//		}
+//
+//		String content = new String(Files.readAllBytes(Paths.get(remapClasspathFile)), StandardCharsets.UTF_8);
+//
+//		return Arrays.stream(content.split(File.pathSeparator))
+//				.map(Paths::get)
+//				.collect(Collectors.toList());
 	}
 
 	private static class RemapInfo {
